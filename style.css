@@ -8,3 +8,51 @@
 	font-family: 'Nunito', sans-serif;
 	letter-spacing: 0.9px;
 }
+._container {
+	width: 1200px;
+	padding: 0px 15px;
+	margin: 0 auto;
+	box-sizing: content-box;
+}
+.wrapper {
+	min-height: 100%;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+.header {
+	position: absolute;
+	height: 80px;
+	width: 100%;
+	left: 0;
+	top: 0;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	background-color: #f4f4f4;
+	border-bottom: 1px solid #aaa;
+	box-shadow: 0px 0px 2px 1px rgb(0 0 0 / 20%);
+}
+.header-container {
+	display: flex;
+	justify-content: space-between;
+}
+.header-button-container {
+	display: flex;
+	width: 250px;
+	justify-content: space-between;
+	align-items: center;
+}
+.header-logo {
+	width: 55px;
+}
+._button {
+	padding: 5px 20px;
+	height: 40px;
+	border-radius: 8px;
+	color: rgb(14, 14, 14);
+	font-size: 16px;
+	background-color: rgb(151, 151, 151);
+	border: none;
+	cursor: pointer;
+}
