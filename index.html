@@ -27,6 +27,46 @@
 					</div>
 				</div>
 			</header>
+			<main class="main-container">
+				<section class="content-container">
+					<div class="search-container">
+						<div class="input-container">
+							<input
+								id="search-input"
+								class="search-input"
+								placeholder="Search or jump to..."
+							/>
+							<img
+								id="search-icon"
+								src="./assets/icons/search.svg"
+								alt=""
+							/>
+						</div>
+						<input
+							id="count"
+							class="per-page-input"
+							type="text"
+							placeholder="per page"
+						/>
+						<button class="_button">search</button>
+					</div>
+					<div class="select-container">
+						<select class="select" id="select">
+							<option value="followers" selected="'selected">
+								followers
+							</option>
+							<option value="repositories">repositories</option>
+							<option value="joined">joined</option>
+						</select>
+						<select class="select" id="select-order">
+							<option value="asc">asc</option>
+							<option value="desc" selected="'selected">
+								desc
+							</option>
+						</select>
+					</div>
+				</section>
+			</main>
 		</div>
 		<script src="./script.js"></script>
 	</body>
