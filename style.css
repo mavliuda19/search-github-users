@@ -56,13 +56,20 @@
 	cursor: pointer;
 }
 .main-container {
-	min-height: 800px;
-	position: relative;
-	top: 160px;
+	min-height: 100%;
+	/* position: absolute; */
+	margin-top: 160px;
+}
+.content-container {
+	/* height: 100%; */
+	/* position: absolute; */
+	/* top: 100px; */
+	left: 0;
+	margin: 100px auto;
 }
 .search-container {
 	height: 70px;
-	position: absolute;
+	/* position: absolute; */
 	top: 0px;
 	width: 100%;
 	display: flex;
@@ -113,20 +120,21 @@
 }
 .select-container {
 	width: 55%;
-	position: absolute;
+	/* position: absolute; */
 	top: 115px;
 	display: flex;
 	justify-content: space-around;
 }
 
 .users {
-	position: absolute;
+	/* position: absolute; */
 	top: 260px;
 	width: 90%;
 	left: calc(50% - 90% / 2);
 	display: grid;
 	grid-row-gap: 20px;
 	padding: 0 20px;
+	margin: 20px auto;
 }
 .user-container {
 	padding: 20px;
@@ -151,4 +159,34 @@
 	justify-content: space-between;
 	display: flex;
 	align-items: center;
+}
+
+.pagination-container {
+	display: flex;
+	align-items: center;
+	position: absolute;
+	/* bottom: 0; */
+	justify-content: center;
+}
+.pagination-container nav {
+	display: flex;
+}
+.pagination-number,
+.pagination-button {
+	font-size: 1.1rem;
+	background-color: rgb(234, 103, 103);
+	border: none;
+	margin: 0.25rem 0.25rem;
+	cursor: pointer;
+	height: 2.5rem;
+	width: 2.5rem;
+	border-radius: 0.2rem;
+}
+.pagination-number:hover,
+.pagination-button:not(.disabled):hover {
+	background: rgb(153, 98, 98);
+}
+.pagination-number.active {
+	color: #fff;
+	background: #0085b6;
 }
