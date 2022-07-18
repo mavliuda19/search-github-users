@@ -6,7 +6,6 @@
 		<title>Page Title</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="./style.css" />
-		<script src="main.js"></script>
 	</head>
 	<body>
 		<div class="wrapper">
@@ -17,18 +16,18 @@
 						src="./assets/icons/github.svg"
 						alt="logo"
 					/>
-					<div class="header-button-container">
-						<button class="_button">
-							<span>Search</span>
+					<nav id="main-nav" class="header-button-container">
+						<button class="_button active">
+							<a href="./index.html">Search</a>
 						</button>
 						<button class="_button">
-							<span>Favorities</span>
+							<a href="./pages/favorities.html">Favorities</a>
 						</button>
-					</div>
+					</nav>
 				</div>
 			</header>
-			<main class="main-container">
-				<section class="content-container">
+			<main id="main-page" class="main-container">
+				<section class="content-container _container">
 					<div class="search-container">
 						<div class="input-container">
 							<input
@@ -65,33 +64,32 @@
 							</option>
 						</select>
 					</div>
-					<div>
-						<div id="users" class="users _container"></div>
-						<div class="pagination-container _container">
-							<nav>
-								<button
-									class="pagination-button"
-									id="prev-button"
-									aria-label="Previous page"
-									title="Previous page"
-								>
-									&lt;
-								</button>
-								<div id="pagination-numbers"></div>
-								<button
-									class="pagination-button"
-									id="next-button"
-									aria-label="Next page"
-									title="Next page"
-								>
-									&gt;
-								</button>
-							</nav>
-						</div>
+					<div id="users" class="users _container"></div>
+					<div class="pagination-container _container">
+						<nav>
+							<button
+								class="pagination-button"
+								id="prev-button"
+								aria-label="Previous page"
+								title="Previous page"
+							>
+								&lt; prev
+							</button>
+							<div id="pagination-numbers"></div>
+							<button
+								class="pagination-button"
+								id="next-button"
+								aria-label="Next page"
+								title="Next page"
+							>
+								next &gt;
+							</button>
+						</nav>
 					</div>
 				</section>
 			</main>
 		</div>
 		<script src="./script.js"></script>
+		<script src="./main.js"></script>
 	</body>
 </html>
