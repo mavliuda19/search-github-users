@@ -16,7 +16,7 @@
 						src="./assets/icons/github.svg"
 						alt="logo"
 					/>
-					<nav id="main-nav" class="header-button-container">
+					<nav id="main-nav" class="button-container">
 						<button class="_button active">
 							<a href="./index.html">Search</a>
 						</button>
@@ -27,7 +27,7 @@
 				</div>
 			</header>
 			<main id="main-page" class="main-container">
-				<section class="content-container _container">
+				<section class="main-content _container">
 					<div class="search-container">
 						<div class="input-container">
 							<input
@@ -35,25 +35,21 @@
 								class="search-input"
 								placeholder="Search or jump to..."
 							/>
-							<img
-								id="search-icon"
-								src="./assets/icons/search.svg"
-								alt=""
-							/>
+							<img src="./assets/icons/search.svg" alt="" />
 						</div>
-						<input
-							id="count"
-							class="per-page-input"
-							type="number"
-							placeholder="per page"
-						/>
-						<button id="button" class="_button">search</button>
+						<div class="submit">
+							<input
+								id="count"
+								class="per-page-input"
+								type="number"
+								placeholder="4"
+							/>
+							<button id="button" class="_button">search</button>
+						</div>
 					</div>
 					<div class="select-container">
 						<select class="select" id="select">
-							<option value="followers" selected="'selected">
-								followers
-							</option>
+							<option value="followers">followers</option>
 							<option value="repositories">repositories</option>
 							<option value="joined">joined</option>
 						</select>
@@ -65,10 +61,10 @@
 						</select>
 					</div>
 					<div id="users" class="users _container"></div>
-					<div class="pagination-container _container">
+					<div id="pagination" class="hidden">
 						<nav>
 							<button
-								class="pagination-button"
+								class="hidden"
 								id="prev-button"
 								aria-label="Previous page"
 								title="Previous page"
@@ -90,6 +86,5 @@
 			</main>
 		</div>
 		<script src="./script.js"></script>
-		<script src="./main.js"></script>
 	</body>
 </html>

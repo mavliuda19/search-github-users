@@ -2,23 +2,26 @@ const BASE_URL = 'https://api.github.com/search/users'
 
 const searchInput = document.getElementById('search-input')
 const searchButton = document.getElementById('button')
-const perPage = document.getElementById('count')
+const perPageInput = document.getElementById('count')
 const userList = document.getElementById('users')
 const selectUser = document.getElementById('select')
 const selectedOrder = document.getElementById('select-order')
 const nextButton = document.getElementById('next-button')
 const prevButton = document.getElementById('prev-button')
-const addToFavorities = document.getElementById('add-favorites')
+const pagination = document.getElementById('pagination')
 
-let selectedSortValue = 'favorities'
+let selectedSortValue = 'followers'
 let selectedOrderValue = 'desc'
 let currentPage = 1
 let inputValue = ''
 let paginationLimit = 4
 let pageCount
+let userData = []
+let data = JSON.parse(localStorage.getItem('favoriteUsers')) || []
 
+// render users
 const renderUsers = (data) => {
-	const { avatar_url, login, html_url } = data
+	const { avatar_url, login, html_url, id } = data
 	return `
 	<div class="user-container">
 	<div class="user-data">
@@ -29,30 +32,31 @@ const renderUsers = (data) => {
 	<a href=${html_url}>link to github</a>
 	</div>
 	</div>
-	<div class="wrapper-info">
-	<i class="bi bi-star-fill"><img src="./assets/icons/star.svg" class="star-icon" id="add-favorites" onclick="onClickCard(event)" data-user ='${JSON.stringify(
+	<div class="wrapper-info btn">
+	<button  class="_button star"  onclick="addToFavorities(event)" data-user ='${JSON.stringify(
 		data,
-	)}' /></i>
-	<button class="_button" class="header-button" onclick="showRepositories(event)" data-repos ='${JSON.stringify(
+	)}' >Star</button>
+	<button class="_button" onclick="showRepositories(event)" data-repos ='${JSON.stringify(
 		data,
-	)}'><a href="./pages/repositories.html" >Show repositories</a></button>
+	)}'><a href="./pages/repositories.html">Show repositories</a></button>
 	</div>
 	</div>
 	</div>`
 }
 
-const renderUserList = (data) => {
+const renderUserList = (user) => {
 	let users = []
-	data.items.map((item) => {
+	user.items.map((item) => {
 		users.push(renderUsers(item))
 	})
 	userList.innerHTML = users.join('')
+	pagination.className = 'pagination-visible _container'
 }
-
+// get input select value
 const changeInputValue = (e) => {
 	inputValue = e.target.value.split(' ').join('')
 }
-const perPageInput = (e) => {
+const changePerPageInputValue = (e) => {
 	paginationLimit = e.target.value.split(' ').join('')
 }
 const sortSelectedValue = (event) => {
@@ -64,7 +68,7 @@ const orderSelectedValue = (event) => {
 	getData()
 }
 // pagination
-const pagination = (data) => {
+const paginationControl = (data) => {
 	pageCount = Math.ceil(data.total_count / paginationLimit)
 }
 const prevPage = () => {
@@ -76,7 +80,11 @@ const prevPage = () => {
 const nextPage = () => {
 	if (currentPage * paginationLimit < pageCount) {
 		currentPage++
+		prevButton.className = 'pagination-button'
 		getData()
+	}
+	if (currentPage * paginationLimit >= pageCount) {
+		nextButton.className = 'hidden'
 	}
 }
 // loader
@@ -90,31 +98,43 @@ const loader = () => {
 </div>`
 	userList.innerHTML = loader
 }
-
-let userData = []
+// get Users
 const getData = async () => {
+	if (inputValue.trim() === '') {
+		alert('Type user name to search!')
+		return
+	}
 	loader()
-	const response = await fetch(
-		`${BASE_URL}?q=${inputValue}&per_page=${paginationLimit}&sort=${selectedSortValue}&order=${selectedOrderValue}&page=${currentPage}`,
-	)
-	const data = await response.json()
-	renderUserList(data)
-	pagination(data)
-	userData = data.items
+	try {
+		const response = await fetch(
+			`${BASE_URL}?q=${inputValue}&per_page=${paginationLimit}&sort=${selectedSortValue}&order=${selectedOrderValue}&page=${currentPage}`,
+		)
+		const data = await response.json()
+		renderUserList(data)
+		paginationControl(data)
+		userData = data.items
+		if (data.total_count === 0) {
+			userList.innerHTML = `<h3 class="error-message">User not found!</h3>`
+			pagination.className = 'hidden'
+		}
+	} catch (error) {
+		userList.innerHTML = `<h3 class="error-message">${error}</h3>`
+		pagination.className = 'hidden'
+	}
 }
-let data = []
-function onClickCard(event) {
-	let card = JSON.parse(event.currentTarget.dataset.user)
-	let currentIndex = userData.find((el) => el.id === card.id)
-	data.push(currentIndex)
-	localStorage.setItem('favoriteUsers', JSON.stringify(data))
+// add to favorities
+const addToFavorities = (event) => {
+	let currentUser = JSON.parse(event.currentTarget.dataset.user)
+	let existedUser = data.find((item) => item.id === currentUser.id)
+	if (!existedUser) {
+		data.push(currentUser)
+		localStorage.setItem('favoriteUsers', JSON.stringify(data))
+	}
 }
-
-function showRepositories(event) {
-	let card = JSON.parse(event.currentTarget.dataset.repos)
-	console.log(card)
-	let currentIndex = userData.find((el) => el.id === card.id)
-	localStorage.setItem('userRepositories', JSON.stringify(currentIndex))
+// show user repositories
+const showRepositories = (event) => {
+	let currentUser = JSON.parse(event.currentTarget.dataset.repos)
+	localStorage.setItem('userRepositories', JSON.stringify(currentUser))
 }
 
 if (selectUser) {
@@ -129,8 +149,8 @@ if (searchButton) {
 if (searchInput) {
 	searchInput.addEventListener('change', changeInputValue)
 }
-if (perPage) {
-	perPage.addEventListener('change', perPageInput)
+if (perPageInput) {
+	perPageInput.addEventListener('change', changePerPageInputValue)
 }
 if (nextButton) {
 	nextButton.addEventListener('click', nextPage)
