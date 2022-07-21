@@ -1,5 +1,4 @@
 const favoriteList = document.getElementById('favoriteList')
-let data = JSON.parse(localStorage.getItem('favoriteUsers')) || []
 
 const renderUsers = (data) => {
 	const { avatar_url, login, html_url } = data
@@ -26,23 +25,22 @@ const renderUsers = (data) => {
 }
 
 const renderFavorities = () => {
+	let data = JSON.parse(localStorage.getItem('favoriteUsers')) || []
 	let users = []
 	data.map((item) => {
 		users.push(renderUsers(item))
 	})
 	favoriteList.innerHTML = users.join('')
 	if (data.length === 0) {
-		favoriteList.innerHTML = `<h3 class='error-message'>You haven't added any user to favorites!</h3>`
+		favoriteList.innerHTML = `<h3 class='error-message'>you haven't added any user to favorites</h3>`
 	}
 }
 
 const deleteFromFavorities = (event) => {
+	let data = JSON.parse(localStorage.getItem('favoriteUsers')) || []
 	let currentUser = JSON.parse(event.currentTarget.dataset.user)
-	let existedUser = data.find((item) => item.id === currentUser.id)
-	if (existedUser) {
-		data.splice(existedUser, 1)
-		localStorage.setItem('favoriteUsers', JSON.stringify(data))
-	}
+	let existedUser = data.filter((item) => item.id !== currentUser.id)
+	localStorage.setItem('favoriteUsers', JSON.stringify(existedUser))
 	renderFavorities()
 }
 const showRepositories = (event) => {

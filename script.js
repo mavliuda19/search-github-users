@@ -81,11 +81,12 @@ const nextPage = () => {
 	if (currentPage * paginationLimit < pageCount) {
 		currentPage++
 		prevButton.className = 'pagination-button'
-		getData()
 	}
 	if (currentPage * paginationLimit >= pageCount) {
 		nextButton.className = 'hidden'
+		return
 	}
+	getData()
 }
 // loader
 const loader = () => {
@@ -124,11 +125,19 @@ const getData = async () => {
 }
 // add to favorities
 const addToFavorities = (event) => {
+	let starButton = document.querySelectorAll('.star')
 	let currentUser = JSON.parse(event.currentTarget.dataset.user)
 	let existedUser = data.find((item) => item.id === currentUser.id)
 	if (!existedUser) {
 		data.push(currentUser)
 		localStorage.setItem('favoriteUsers', JSON.stringify(data))
+		starButton.forEach((button) => {
+			let attribute = button.getAttribute('data-user')
+			let parsedAttribute = JSON.parse(attribute)
+			if (parsedAttribute.id === currentUser.id) {
+				button.className = 'starred _button'
+			}
+		})
 	}
 }
 // show user repositories
